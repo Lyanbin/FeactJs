@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>react</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<script type="text/javascript">
+    
+/**
+ * 例子一，简单的实现
+ * @type {Object}
+ */
+const Feact = {
+
+    createElement(type, props, children) {
+        const element = {
+            type,
+            props: props || {}
+        }
+        if (children) {
+            element.props.children = children;
+        }
+        return element;
+    },
+
+    render(element, container) {
+        const componentInstance = new FeactDomComponent(element);
+        componentInstance.mountComponent(container);
+    }
+
+}
+
+class FeactDomComponent {
+    constructor (element) {
+        this._currentElement = element;
+    }
+
+    mountComponent (container) {
+        const domElement = document.createDocumentFragment(this._currentElement.type);
+        const text = this._currentElement.props.children;
+
+        const textNode = document.createTextNode(text);
+        domElement.appendChild(textNode);
+        container.appendChild(domElement);
+
+        return domElement;
+    }
+}
+
+Feact.render(
+    Feact.createElement('h1', null, 'hello world'),
+    document.getElementById('root')
+)
+
+</script>
+</html>
