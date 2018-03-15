@@ -37,7 +37,7 @@ const Feact = {
 
     render(element, container) {
         const componentInstance = new FeactCompositeComponentWrapper(element);
-        componentInstance.mountComponent(container);
+        return componentInstance.mountComponent(container);
     }
 
 }
@@ -71,7 +71,8 @@ class FeactCompositeComponentWrapper {
 
         const componentInstance = new Component(this._currentElement.props);
         let element = componentInstance.render();
-
+        
+        // 注意这个循环，如果render的结果，仍然是一个自定义组件的话，就要继续循环下去
         while (typeof element.type === 'function') {
             element = (new element.type(element.props)).render();
         }
@@ -103,7 +104,7 @@ const MyMessage = Feact.createClass({
 // console.log(MyTitle); // 此时，MyTitle其实就是那个自定义的构造函数Constructor, 这个构造函数会当成createElement的type进行传递
 
 Feact.render(
-    Feact.createElement(MyMessage, { message: 'i am here123', asTitle:1 }),
+    Feact.createElement(MyMessage, { message: 'i am here123', asTitle: 1 }),
     document.getElementById('root')
 );
 

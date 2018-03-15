@@ -27,7 +27,7 @@ const Feact = {
 
     render(element, container) {
         const componentInstance = new FeactDomComponent(element);
-        componentInstance.mountComponent(container);
+        return componentInstance.mountComponent(container);
     }
 
 }
@@ -40,7 +40,7 @@ class FeactDomComponent {
     mountComponent (container) {
         const domElement = document.createDocumentFragment(this._currentElement.type);
         const text = this._currentElement.props.children;
-
+        
         const textNode = document.createTextNode(text);
         domElement.appendChild(textNode);
         container.appendChild(domElement);
